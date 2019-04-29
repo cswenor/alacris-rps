@@ -16,7 +16,7 @@ function renderForm(editable, amount) {
         <label>
             Wager 
             ${editable ? 
-                `<input type="number" name="wager" required pattern="[A-Za-z]+">`
+                `<input type="number" name="wager" required pattern="[A-Za-z]+" min="1">`
                 :
                 `<output name="wager">${amount}</output>`
             }
