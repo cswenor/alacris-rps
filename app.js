@@ -22,9 +22,9 @@ function renderForm(editable, amount) {
             }
         </label>
         <br>
-        ${renderChoice('🗿', 0)}
-        ${renderChoice('📰', 1)}
-        ${renderChoice('✂', 2)}
+        ${renderChoice(0)}
+        ${renderChoice(1)}
+        ${renderChoice(2)}
         <br>
         <button>Shoot!</button>
     `;
@@ -41,9 +41,9 @@ function renderForm(editable, amount) {
     return el;
 }
 
-function renderChoice(icon, value) {
+function renderChoice(value) {
     return `
-    <label><input type="radio" value="${value}" required name="choice">${icon} ${getLabelForValue(value)}</label>
+    <label><input type="radio" value="${value}" required name="choice">${getIconForValue(value)} ${getLabelForValue(value)}</label>
     `;
 }
 
@@ -56,4 +56,8 @@ function getFormValuesForEvent (e) {
 
 function getLabelForValue (choice) {
     return ['Rock', 'Paper', 'Scissors'][choice] || '';
+}
+
+function getIconForValue(choice) {
+    return ['🗿', '📰', '✂'][choice] || '';
 }
