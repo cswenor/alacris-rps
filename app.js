@@ -11,6 +11,7 @@ body.append(renderForm(true));
 // }
 
 function renderForm(editable, amount) {
+    const shareUrl = `http://rps.alacris.io/?c=8675309eyine`;
     const child = `
         <label>
             Wager 
@@ -32,7 +33,10 @@ function renderForm(editable, amount) {
     el.addEventListener('submit', (e) => {
         e.preventDefault();
         const {wager, choice} = getFormValuesForEvent(e);
-        alert(`You wagered ${wager} and chose ${getLabelForValue(choice)}.`);
+        window.prompt(`
+        You wagered ${wager} and chose ${getLabelForValue(choice)}.\n
+        Copy and share this URL to someone you want to play against:
+        `, `${shareUrl}`);
     });
     return el;
 }
