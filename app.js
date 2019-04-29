@@ -5,13 +5,13 @@
 // const token = '0x2bD86E33628C797939dC5D92888590be1c84882B';
 // if (!web3.currentProvider)
 //     web3.setProvider(new web3.providers.HttpProvider(`https://rinkeby.infura.io/${token}`));
-
-document.querySelector('body').innerHTML = renderForm(true);
+const body = document.querySelector('body');
+body.innerHTML = '';
+body.append(renderForm(true));
 // }
 
 function renderForm(editable, amount) {
-    return `
-    <form>
+    const child = `
         <label>
             Wager 
             ${editable ? 
@@ -21,17 +21,35 @@ function renderForm(editable, amount) {
             }
         </label>
         <br>
-        ${renderChoice('🗿', 'Rock', 0)}
-        ${renderChoice('📰', 'Paper', 0)}
-        ${renderChoice('✂', 'Scissors', 0)}
+        ${renderChoice('🗿', 0)}
+        ${renderChoice('📰', 1)}
+        ${renderChoice('✂', 2)}
         <br>
         <button>Shoot!</button>
-    </form>
+    `;
+    const el = document.createElement('form');
+    el.innerHTML = child;
+    el.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const {wager, choice} = getFormValuesForEvent(e);
+        alert(`You wagered ${wager} and chose ${getLabelForValue(choice)}.`);
+    });
+    return el;
+}
+
+function renderChoice(icon, value) {
+    return `
+    <label><input type="radio" value="${value}" required name="choice">${icon} ${getLabelForValue(value)}</label>
     `;
 }
 
-function renderChoice(icon, label, value) {
-    return `
-    <label><input type="radio" value="${value}" name="choice">${icon} ${label}</label>
-    `;
+function getFormValuesForEvent (e) {
+    return {
+        wager: e.target.querySelector('[name=wager]').value,
+        choice: e.target.querySelector('[name=choice]:checked').value
+    };
+}
+
+function getLabelForValue (choice) {
+    return ['Rock', 'Paper', 'Scissors'][choice] || '';
 }
