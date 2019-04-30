@@ -1,23 +1,37 @@
-// if (!window.Web3) {
-//     alert('You need a Web3-compatible browser. Consider downloading the MetaMask extension.');
-// } else {
-// const web3 = new window.Web3(window.Web3.givenProvider);
-// const token = '0x2bD86E33628C797939dC5D92888590be1c84882B';
-// if (!web3.currentProvider)
-//     web3.setProvider(new web3.providers.HttpProvider(`https://rinkeby.infura.io/${token}`));
-const body = document.querySelector('body');
-body.innerHTML = '';
-body.append(renderForm(false, 3));
-// }
+if (typeof window.ethereum !== 'undefined' ||
+    (typeof window.web3 !== 'undefined')) {
 
-function renderForm (editable, amount) {
-    const shareUrl = `http://rps.alacris.io/?c=8675309eyine`;
+    // Web3 browser user detected. You can now use the provider.
+    const provider = window['ethereum'] || window.web3.currentProvider
+    init();
+} else {
+    alert('You need a Web3-compatible browser. Consider downloading the MetaMask extension.');
+}
+
+async function getAccount() {
+    try {
+        const accounts = await ethereum.enable()
+        return accounts[0];
+    } catch (error) {
+        // Handle error. Likely the user rejected the login:
+        console.log(reason === "User rejected provider access")
+    }
+}
+
+async function init () {
+    const account = await getAccount();
+    const body = document.querySelector('body');
+    body.innerHTML = '';
+    body.append(renderForm(account, true));
+
+}
+
+function renderForm (account, editable, amount) {
+    const shareUrl = `http://rps.alacris.io/?c=${account}`;
     const child = `
         ${renderWager(editable, amount)}
         <br>
-        ${renderChoice(0)}
-        ${renderChoice(1)}
-        ${renderChoice(2)}
+        ${renderChoiceGroup()}
         <br>
         ${renderSubmit()}
     `;
@@ -39,6 +53,17 @@ function renderForm (editable, amount) {
         ;
     });
     return el;
+}
+
+function renderChoiceGroup () {
+    return `
+    <fieldset style="margin-top: .25em; text-align: center;">
+        <legend>Make your play:</legend>
+        ${renderChoice(0)}
+        ${renderChoice(1)}
+        ${renderChoice(2)}
+    </fieldset>
+    `;
 }
 
 function renderChoice (value) {
