@@ -10,25 +10,19 @@ body.innerHTML = '';
 body.append(renderForm(true));
 // }
 
-function renderForm(editable, amount) {
+function renderForm (editable, amount) {
     const shareUrl = `http://rps.alacris.io/?c=8675309eyine`;
     const child = `
-        <label>
-            Wager 
-            ${editable ? 
-                `<input type="number" name="wager" required pattern="[A-Za-z]+" min="1">`
-                :
-                `<output name="wager">${amount}</output>`
-            }
-        </label>
+        ${renderWager(editable, amount)}
         <br>
         ${renderChoice(0)}
         ${renderChoice(1)}
         ${renderChoice(2)}
         <br>
-        <button>Shoot!</button>
+        ${renderSubmit()}
     `;
     const el = document.createElement('form');
+    el.style.cssText = "max-width: 16em;";
     el.innerHTML = child;
     el.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -41,11 +35,39 @@ function renderForm(editable, amount) {
     return el;
 }
 
-function renderChoice(value) {
+function renderChoice (value) {
     return `
-    <label><input type="radio" value="${value}" required name="choice">${getIconForValue(value)} ${getLabelForValue(value)}</label>
+    <label style="display: inline-block; margin: .5em; text-align: center;">
+        <input type="radio" value="${value}" required name="choice">
+        <br>
+        ${getIconForValue(value)}
+        <br>
+        ${getLabelForValue(value)}
+    </label>
     `;
 }
+
+function renderWager (editable, amount) {
+    const wagerStyle = 'font-size: 18pt;';
+    return `
+    <label style="text-align: center;">
+        Wager 
+        <br>
+        ${editable ? 
+            `<input style="${wagerStyle}" type="number" name="wager" required pattern="[A-Za-z]+" min="1">`
+            :
+            `<output style="${wagerStyle}" name="wager">${amount}</output>`
+        }
+    </label>
+        `;
+}
+
+function renderSubmit (editable, amount) {
+    return `
+    <button style="width: 100%;">Shoot!</button>
+    `;
+}
+
 
 function getFormValuesForEvent (e) {
     return {
@@ -58,6 +80,6 @@ function getLabelForValue (choice) {
     return ['Rock', 'Paper', 'Scissors'][choice] || '';
 }
 
-function getIconForValue(choice) {
+function getIconForValue (choice) {
     return ['🗿', '📰', '✂'][choice] || '';
 }
