@@ -7,7 +7,7 @@
 //     web3.setProvider(new web3.providers.HttpProvider(`https://rinkeby.infura.io/${token}`));
 const body = document.querySelector('body');
 body.innerHTML = '';
-body.append(renderForm(true));
+body.append(renderForm(false, 3));
 // }
 
 function renderForm (editable, amount) {
@@ -27,10 +27,15 @@ function renderForm (editable, amount) {
     el.addEventListener('submit', (e) => {
         e.preventDefault();
         const {wager, choice} = getFormValuesForEvent(e);
+        const confirmation = `You wagered ${wager} and chose ${getLabelForValue(choice)}.`;
+        editable ? 
         window.prompt(`
-        You wagered ${wager} and chose ${getLabelForValue(choice)}.\n
+        ${confirmation}\n
         Copy and share this URL to someone you want to play against:
-        `, `${shareUrl}`);
+        `, `${shareUrl}`)
+        :
+        window.alert(confirmation)
+        ;
     });
     return el;
 }
