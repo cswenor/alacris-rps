@@ -112,8 +112,8 @@ function renderSubmit (editable, amount) {
 
 function getFormValuesForEvent (e) {
     return {
-        wager: e.target.querySelector('[name=wager]').value,
-        choice: e.target.querySelector('[name=choice]:checked').value
+        wager: e.target.elements.wager.value,
+        choice: e.target.elements.choice.value
     };
 }
 
