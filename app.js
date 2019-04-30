@@ -41,6 +41,17 @@ function renderForm (account, editable, amount) {
     el.addEventListener('submit', (e) => {
         e.preventDefault();
         const {wager, choice} = getFormValuesForEvent(e);
+        // store 256bit salt in local storage
+        // concatenate choice to the salt
+        // hash the concatenation with sha
+        // submit that hash to the static contract id to the `createGame` function, funded by the wager
+        // receipt is received from that
+        // keep checking the receipt until you get a new contract id
+        // display that contract id on the page so someone can copy and paste the new url
+        // keep checking the contract id until the friend completes their play
+        // when state is `2`, call `reveal` on new contract id with `salt` and `decision`
+        // when state is 3 = originator wins, 4 = secondary wins, 5 = draw
+        // display result
         const confirmation = `You wagered ${wager} and played ${getLabelForValue(choice)}.`;
         editable ? 
         window.prompt(
