@@ -41,12 +41,11 @@ function renderForm (account, editable, amount) {
     el.addEventListener('submit', (e) => {
         e.preventDefault();
         const {wager, choice} = getFormValuesForEvent(e);
-        const confirmation = `You wagered ${wager} and chose ${getLabelForValue(choice)}.`;
+        const confirmation = `You wagered ${wager} and played ${getLabelForValue(choice)}.`;
         editable ? 
-        window.prompt(`
-            ${confirmation}\n
-            Copy and share this URL to someone you want to play against:
-            `, `${shareUrl}`
+        window.prompt(
+            `${confirmation}\nCopy and share this URL to someone you want to play against:`,
+            `${shareUrl}`
         )
         :
         window.alert(confirmation)
