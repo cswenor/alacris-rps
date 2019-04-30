@@ -30,9 +30,10 @@ function renderForm (editable, amount) {
         const confirmation = `You wagered ${wager} and chose ${getLabelForValue(choice)}.`;
         editable ? 
         window.prompt(`
-        ${confirmation}\n
-        Copy and share this URL to someone you want to play against:
-        `, `${shareUrl}`)
+            ${confirmation}\n
+            Copy and share this URL to someone you want to play against:
+            `, `${shareUrl}`
+        )
         :
         window.alert(confirmation)
         ;
