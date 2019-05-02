@@ -122,5 +122,5 @@ function getLabelForValue (choice) {
 }
 
 function getIconForValue (choice) {
-    return ['🗿', '📰', '✂'][choice] || '';
+    return ['✊', '✋', '✌'][choice] || '';
 }
